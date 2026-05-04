@@ -169,7 +169,7 @@ class Alerts extends Table {
 
 @DriftAccessor(tables: [WatchlistNames, WatchlistItems, Alerts])
 class WatchlistDao extends DatabaseAccessor<AppDatabase> with _$WatchlistDaoMixin {
-  WatchlistDao(AppDatabase db) : super(db);
+  WatchlistDao(super.db);
 
   Future<List<WatchlistName>> getAllWatchlists() => select(watchlistNames).get();
   

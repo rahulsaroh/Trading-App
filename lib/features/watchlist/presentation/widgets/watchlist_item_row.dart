@@ -48,7 +48,7 @@ class WatchlistItemRow extends ConsumerWidget {
             quoteAsync.when(
               data: (quote) => _buildPriceInfo(quote.ltp, quote.change, quote.changePct),
               loading: () => const SizedBox(width: 80, height: 20, child: LinearProgressIndicator(color: AppColors.border)),
-              error: (_, __) => const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16),
+              error: (_, _) => const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16),
             ),
           ],
         ),

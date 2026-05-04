@@ -12,37 +12,31 @@ abstract class AppException implements Exception {
 
 /// Network-related exceptions
 class NetworkException extends AppException {
-  const NetworkException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const NetworkException(super.message, {super.code, super.details});
 }
 
 class ApiException extends AppException {
   final int? statusCode;
 
-  const ApiException(String message, {this.statusCode, String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const ApiException(super.message, {this.statusCode, super.code, super.details});
 }
 
 class TimeoutException extends AppException {
-  const TimeoutException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const TimeoutException(super.message, {super.code, super.details});
 }
 
 /// Database-related exceptions
 class DatabaseException extends AppException {
-  const DatabaseException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const DatabaseException(super.message, {super.code, super.details});
 }
 
 class DataNotFoundException extends DatabaseException {
-  const DataNotFoundException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const DataNotFoundException(super.message, {super.code, super.details});
 }
 
 /// Trading-related exceptions
 class TradingException extends AppException {
-  const TradingException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const TradingException(super.message, {super.code, super.details});
 }
 
 class InsufficientFundsException extends TradingException {
@@ -55,8 +49,7 @@ class InsufficientFundsException extends TradingException {
 }
 
 class InvalidOrderException extends TradingException {
-  const InvalidOrderException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const InvalidOrderException(super.message, {super.code, super.details});
 }
 
 class MarketClosedException extends TradingException {
@@ -93,8 +86,7 @@ class InvalidPriceException extends TradingException {
 
 /// Authentication exceptions
 class AuthException extends AppException {
-  const AuthException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const AuthException(super.message, {super.code, super.details});
 }
 
 class InvalidCredentialsException extends AuthException {
@@ -133,14 +125,12 @@ class ValidationException extends AppException {
 
 /// Cache exceptions
 class CacheException extends AppException {
-  const CacheException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const CacheException(super.message, {super.code, super.details});
 }
 
 /// WebSocket exceptions
 class WebSocketException extends AppException {
-  const WebSocketException(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const WebSocketException(super.message, {super.code, super.details});
 }
 
 class ConnectionLostException extends WebSocketException {
@@ -162,22 +152,19 @@ class Failure {
 
 /// Network failure
 class NetworkFailure extends Failure {
-  const NetworkFailure(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const NetworkFailure(super.message, {super.code, super.details});
 }
 
 /// Server failure
 class ServerFailure extends Failure {
   final int? statusCode;
 
-  const ServerFailure(String message, {this.statusCode, String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const ServerFailure(super.message, {this.statusCode, super.code, super.details});
 }
 
 /// Cache failure
 class CacheFailure extends Failure {
-  const CacheFailure(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const CacheFailure(super.message, {super.code, super.details});
 }
 
 /// Validation failure
@@ -190,14 +177,12 @@ class ValidationFailure extends Failure {
 
 /// Trading failure
 class TradingFailure extends Failure {
-  const TradingFailure(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const TradingFailure(super.message, {super.code, super.details});
 }
 
 /// Authentication failure
 class AuthFailure extends Failure {
-  const AuthFailure(String message, {String? code, dynamic details})
-      : super(message, code: code, details: details);
+  const AuthFailure(super.message, {super.code, super.details});
 }
 
 /// Extension to convert exceptions to failures

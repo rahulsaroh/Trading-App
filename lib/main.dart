@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -24,6 +25,14 @@ final priceStreamProvider = StreamProvider<TickData>((ref) {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (kDebugMode) {
+    debugPrint('========================================');
+    debugPrint('TradeDesk initialized - DEBUG MODE');
+    debugPrint('Price simulator and order engine active');
+    debugPrint('========================================');
+  }
+
   runApp(const ProviderScope(child: TradeDeskApp()));
 }
 

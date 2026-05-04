@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../providers/watchlist_provider.dart';
 import '../widgets/watchlist_item_row.dart';
 
@@ -34,7 +33,7 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> with TickerPr
             tabs: lists.map((l) => Tab(text: l.name)).toList(),
           ),
           loading: () => null,
-          error: (_, __) => null,
+          error: (_, _) => null,
         ),
       ),
       body: watchlistsAsync.when(
@@ -42,7 +41,7 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> with TickerPr
           children: lists.map((l) => _WatchlistItemsList(watchlistId: l.id)).toList(),
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, __) => Center(child: Text('Error: $e')),
+        error: (e, _) => Center(child: Text('Error: $e')),
       ),
     );
   }
@@ -95,7 +94,7 @@ class _WatchlistItemsList extends ConsumerWidget {
               ),
             ),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, __) => Center(child: Text('Error loading items')),
+      error: (e, _) => Center(child: Text('Error loading items')),
     );
   }
 }

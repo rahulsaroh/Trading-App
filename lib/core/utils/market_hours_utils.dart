@@ -1,4 +1,3 @@
-import 'package:intl/intl.dart';
 
 enum MarketStatus { PRE_OPEN, OPEN, CLOSED, HOLIDAY }
 

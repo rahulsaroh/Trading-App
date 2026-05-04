@@ -41,7 +41,7 @@ class PortfolioSummaryHeaderCard extends ConsumerWidget {
           ],
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Text('Error loading summary'),
+        error: (_, _) => const Text('Error loading summary'),
       ),
     );
   }

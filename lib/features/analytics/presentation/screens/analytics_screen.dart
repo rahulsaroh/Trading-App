@@ -25,7 +25,7 @@ class AnalyticsScreen extends ConsumerWidget {
       body: tradesAsync.when(
         data: (trades) => _buildContent(trades),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(child: Text('Error loading analytics')),
+        error: (_, _) => const Center(child: Text('Error loading analytics')),
       ),
     );
   }

@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "TradeDesk (Debug)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--debug"],
+      "flutterMode": "debug"
+    },
+    {
+      "name": "TradeDesk (Profile)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "args": ["--profile"],
+      "flutterMode": "profile"
+    }
+  ]
+}

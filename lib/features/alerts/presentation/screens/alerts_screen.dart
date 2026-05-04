@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_text_styles.dart';
 import '../providers/alert_provider.dart';
 
 class AlertsScreen extends ConsumerWidget {
@@ -37,14 +36,14 @@ class AlertsScreen extends ConsumerWidget {
                       trailing: Switch(
                         value: alert.isActive,
                         onChanged: (val) => ref.read(alertStateProvider.notifier).toggleAlert(alert.id, val),
-                        activeColor: AppColors.primaryBlue,
+                        activeThumbColor: AppColors.primaryBlue,
                       ),
                     ),
                   );
                 },
               ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (_, __) => const Center(child: Text('Error loading alerts')),
+        error: (_, _) => const Center(child: Text('Error loading alerts')),
       ),
     );
   }

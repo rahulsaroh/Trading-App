@@ -1,7 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:drift/drift.dart';
 import '../../../../core/database/database_provider.dart';
-import '../../../../data/datasources/app_database.dart';
 
 part 'portfolio_providers.g.dart';
 

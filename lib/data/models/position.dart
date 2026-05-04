@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:equatable/equatable.dart';
 
 part 'position.freezed.dart';
 part 'position.g.dart';
@@ -36,6 +35,7 @@ abstract class AppPosition with _$AppPosition {
   double get totalPnlPercentage => entryPrice != 0 ? (totalPnl / (entryPrice * quantity)) * 100 : 0;
 
   /// Calculate day P&L percentage
+  @override
   double get dayPnLPercentage => entryPrice != 0 ? (dayPnl / (entryPrice * quantity)) * 100 : 0;
 
   /// Get the current value of the position

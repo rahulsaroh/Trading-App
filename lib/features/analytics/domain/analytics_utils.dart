@@ -73,7 +73,11 @@ class TradingInsightsEngine {
 
     int streak = 0;
     for (var t in trades.reversed) {
-      if (t.pnl > 0) streak++; else break;
+      if (t.pnl > 0) {
+        streak++;
+      } else {
+        break;
+      }
     }
     if (streak >= 3) {
       insights.add("On a $streak trade winning streak! Maintain discipline.");

@@ -60,7 +60,7 @@ class _PositionsTab extends ConsumerWidget {
             itemBuilder: (context, index) => _PositionCard(position: positions[index]),
           ),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const Center(child: Text('Error loading positions')),
+      error: (_, _) => const Center(child: Text('Error loading positions')),
     );
   }
 }
@@ -125,7 +125,7 @@ class _OrdersTab extends ConsumerWidget {
         },
       ),
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (_, __) => const Center(child: Text('Error loading orders')),
+      error: (_, _) => const Center(child: Text('Error loading orders')),
     );
   }
 

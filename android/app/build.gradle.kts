@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.tradedesk.app"
-    compileSdk = 34
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -22,15 +22,30 @@ android {
     defaultConfig {
         applicationId = "com.tradedesk.app"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
         multiDexEnabled = true
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../tradedesk.keystore")
+            storePassword = "tradedesk123"
+            keyAlias = "tradedesk"
+            keyPassword = "tradedesk123"
+        }
+    }
+
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 }

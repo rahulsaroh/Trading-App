@@ -43,8 +43,12 @@ class OIBarChart extends StatelessWidget {
 
   double _getMaxOI(OptionChain chain) {
     double max = 0;
-    for (var c in chain.calls) if ((c.oi ?? 0) > max) max = c.oi!.toDouble();
-    for (var p in chain.puts) if ((p.oi ?? 0) > max) max = p.oi!.toDouble();
+    for (var c in chain.calls) {
+      if ((c.oi ?? 0) > max) max = c.oi!.toDouble();
+    }
+    for (var p in chain.puts) {
+      if ((p.oi ?? 0) > max) max = p.oi!.toDouble();
+    }
     return max * 1.1;
   }
 }

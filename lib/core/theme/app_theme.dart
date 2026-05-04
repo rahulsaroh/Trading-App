@@ -16,13 +16,11 @@ class AppTheme {
         secondary: AppColors.accentGreen,
         tertiary: AppColors.accentRed,
         surface: AppColors.surface,
-        surfaceVariant: AppColors.surfaceVariant,
-        background: AppColors.background,
+        surfaceContainerHighest: AppColors.surfaceVariant,
         error: AppColors.error,
         onPrimary: AppColors.textPrimary,
         onSecondary: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
-        onBackground: AppColors.textPrimary,
         onError: AppColors.textPrimary,
       ),
 
@@ -249,14 +247,14 @@ class AppTheme {
 
       // Switch theme
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primaryBlue;
           }
           return AppColors.surfaceVariant;
         }),
-        trackColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primaryBlue.withOpacity(0.3);
           }
           return AppColors.surfaceVariant;
@@ -265,13 +263,13 @@ class AppTheme {
 
       // Checkbox theme
       checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primaryBlue;
           }
           return AppColors.surfaceVariant;
         }),
-        checkColor: MaterialStateProperty.all(AppColors.textPrimary),
+        checkColor: WidgetStateProperty.all(AppColors.textPrimary),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.radiusSm),
         ),
@@ -283,8 +281,8 @@ class AppTheme {
 
       // Radio theme
       radioTheme: RadioThemeData(
-        fillColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primaryBlue;
           }
           return AppColors.surfaceVariant;
@@ -337,9 +335,9 @@ class AppTheme {
 
       // Data table theme
       dataTableTheme: DataTableThemeData(
-        headingRowColor: MaterialStateProperty.all(AppColors.surfaceVariant),
-        dataRowColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
+        headingRowColor: WidgetStateProperty.all(AppColors.surfaceVariant),
+        dataRowColor: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
             return AppColors.primaryBlue.withOpacity(0.1);
           }
           return AppColors.surface;
@@ -448,13 +446,11 @@ class AppTheme {
         secondary: AppColors.accentGreen,
         tertiary: AppColors.accentRed,
         surface: Colors.white,
-        surfaceVariant: Color(0xFFF5F5F5),
-        background: Colors.white,
+        surfaceContainerHighest: Color(0xFFF5F5F5),
         error: AppColors.error,
         onPrimary: Colors.white,
         onSecondary: Colors.white,
         onSurface: Colors.black87,
-        onBackground: Colors.black87,
         onError: Colors.white,
       ),
       scaffoldBackgroundColor: Colors.white,
