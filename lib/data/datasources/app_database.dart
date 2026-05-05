@@ -88,7 +88,7 @@ class Positions extends Table {
   TextColumn get symbol => text()();
   TextColumn get name => text().withDefault(Constant(''))();
   TextColumn get type => text()();
-  RealColumn get entryPrice => real()();
+  RealColumn get averagePrice => real()();
   RealColumn get currentPrice => real().withDefault(Constant(0))();
   IntColumn get quantity => integer()();
   RealColumn get pnl => real().withDefault(Constant(0))();

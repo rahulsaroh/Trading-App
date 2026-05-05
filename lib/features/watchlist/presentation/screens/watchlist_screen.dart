@@ -16,32 +16,40 @@ class _WatchlistScreenState extends ConsumerState<WatchlistScreen> with TickerPr
   Widget build(BuildContext context) {
     final watchlistsAsync = ref.watch(watchlistStateProvider);
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('Watchlist'),
-        actions: [
-          IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-          IconButton(icon: const Icon(Icons.add), onPressed: () => _showAddWatchlistDialog(context)),
-        ],
-        bottom: watchlistsAsync.when(
-          data: (lists) => TabBar(
-            isScrollable: true,
-            indicatorColor: AppColors.primaryBlue,
-            labelColor: AppColors.primaryBlue,
-            unselectedLabelColor: AppColors.textSecondary,
-            tabs: lists.map((l) => Tab(text: l.name)).toList(),
+    return watchlistsAsync.when(
+      data: (lists) => DefaultTabController(
+        length: lists.length,
+        child: Scaffold(
+          backgroundColor: AppColors.background,
+          appBar: AppBar(
+            title: const Text('Watchlist'),
+            actions: [
+              IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () => _showAddWatchlistDialog(context),
+              ),
+            ],
+            bottom: TabBar(
+              isScrollable: true,
+              indicatorColor: AppColors.primaryBlue,
+              labelColor: AppColors.primaryBlue,
+              unselectedLabelColor: AppColors.textSecondary,
+              tabs: lists.map((l) => Tab(text: l.name)).toList(),
+            ),
           ),
-          loading: () => null,
-          error: (_, _) => null,
+          body: TabBarView(
+            children: lists.map((l) => _WatchlistItemsList(watchlistId: l.id)).toList(),
+          ),
         ),
       ),
-      body: watchlistsAsync.when(
-        data: (lists) => TabBarView(
-          children: lists.map((l) => _WatchlistItemsList(watchlistId: l.id)).toList(),
-        ),
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+      loading: () => const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (e, _) => Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: Text('Error: $e')),
       ),
     );
   }

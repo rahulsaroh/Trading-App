@@ -12,10 +12,11 @@
          android:label="tradedesk"
          android:name="${applicationName}"
          android:icon="@mipmap/ic_launcher"
+         android:networkSecurityConfig="@xml/network_security_config"
          android:usesCleartextTraffic="true"
          android:requestLegacyExternalStorage="true">
 
-         <activity
+          <activity
             android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTop"

@@ -4,6 +4,8 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../../../../data/datasources/app_database.dart';
 import '../../../market_depth/market_data_providers.dart';
+import '../../../market_depth/presentation/screens/stock_detail_screen.dart';
+import '../../../order_management/presentation/widgets/order_placement_bottom_sheet.dart';
 
 class WatchlistItemRow extends ConsumerWidget {
   final WatchlistItem item;
@@ -21,36 +23,69 @@ class WatchlistItemRow extends ConsumerWidget {
 
     return Dismissible(
       key: Key(item.id.toString()),
-      background: _buildActionBackground(Alignment.centerLeft, AppColors.accentGreen, 'BUY'),
-      secondaryBackground: _buildActionBackground(Alignment.centerRight, AppColors.accentRed, 'SELL'),
+      background: _buildActionBackground(Alignment.centerLeft, AppColors.accentRed, 'SELL'),
+      secondaryBackground: _buildActionBackground(Alignment.centerRight, AppColors.accentGreen, 'BUY'),
       onDismissed: (direction) {
-        // Trade action triggered
+        // Swipe Right (startToEnd) -> SELL
+        // Swipe Left (endToStart) -> BUY
+        final side = direction == DismissDirection.startToEnd ? 'SELL' : 'BUY';
+        
+        // Reset the dismissible state so it doesn't actually remove the item from the widget tree
+        // until the DB operation is confirmed (or just keep it and let the order sheet handle it)
+        // In this case, we'll keep the UI simple.
+        
+        quoteAsync.whenData((quote) {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => OrderPlacementBottomSheet(
+              symbol: item.symbol,
+              side: side,
+              ltp: quote.ltp,
+            ),
+          );
+        });
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: const BoxDecoration(
-          color: AppColors.background,
-          border: Border(bottom: BorderSide(color: AppColors.border, width: 0.5)),
-        ),
-        child: Row(
-          children: [
-            _buildLogo(item.symbol),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(item.symbol, style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
-                  Text(item.name, style: AppTextStyles.labelSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
-                ],
+      child: InkWell(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => StockDetailScreen(symbol: item.symbol))),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          decoration: const BoxDecoration(
+            color: AppColors.background,
+            border: Border(bottom: BorderSide(color: AppColors.border, width: 0.5)),
+          ),
+          child: Row(
+            children: [
+              _buildLogo(item.symbol),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Hero(
+                      tag: 'symbol_${item.symbol}',
+                      child: Material(
+                        color: Colors.transparent,
+                        child: Text(item.symbol, style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                    Text(item.name, style: AppTextStyles.labelSmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                  ],
+                ),
               ),
-            ),
-            quoteAsync.when(
-              data: (quote) => _buildPriceInfo(quote.ltp, quote.change, quote.changePct),
-              loading: () => const SizedBox(width: 80, height: 20, child: LinearProgressIndicator(color: AppColors.border)),
-              error: (_, _) => const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16),
-            ),
-          ],
+              quoteAsync.when(
+                data: (quote) => Hero(
+                  tag: 'price_${item.symbol}',
+                  child: Material(
+                    color: Colors.transparent,
+                    child: _buildPriceInfo(quote.ltp, quote.change, quote.changePct),
+                  ),
+                ),
+                loading: () => const SizedBox(width: 80, height: 20, child: LinearProgressIndicator(color: AppColors.border)),
+                error: (_, _) => const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16),
+              ),
+            ],
+          ),
         ),
       ),
     );

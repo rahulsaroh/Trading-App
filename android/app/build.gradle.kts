@@ -30,7 +30,7 @@ android {
 
     signingConfigs {
         create("release") {
-            storeFile = file("../tradedesk.keystore")
+            storeFile = file("../../tradedesk.keystore")
             storePassword = "tradedesk123"
             keyAlias = "tradedesk"
             keyPassword = "tradedesk123"

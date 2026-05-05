@@ -7,6 +7,7 @@ import '../../../../core/constants/app_text_styles.dart';
 import '../../../../core/utils/currency_utils.dart';
 import '../../domain/order_execution_engine.dart';
 import '../../domain/trade_utils.dart';
+import '../../../portfolio/presentation/providers/portfolio_providers.dart';
 
 class OrderPlacementBottomSheet extends ConsumerStatefulWidget {
   final String symbol;
@@ -26,14 +27,30 @@ class OrderPlacementBottomSheet extends ConsumerStatefulWidget {
 
 class _OrderPlacementBottomSheetState extends ConsumerState<OrderPlacementBottomSheet> {
   int _lots = 1;
-  final int _lotSize = 50; 
+  late final int _lotSize;
   String _orderType = 'MARKET';
+
+  @override
+  void initState() {
+    super.initState();
+    // Determine lot size based on symbol
+    _lotSize = widget.symbol == 'BANKNIFTY' ? 15 : 50; // NIFTY default = 50
+  }
 
   @override
   Widget build(BuildContext context) {
     final qty = _lots * _lotSize;
     final marginRequired = MarginCalculator.calculateRequired(widget.ltp, qty, 'STOCK');
+    
+    // Get actual portfolio cash balance
+    final portfolioAsync = ref.watch(portfolioSummaryProvider);
+    final availableCash = portfolioAsync.value?.cashBalance ?? 1000000.0;
+    
     final isBuy = widget.side == 'BUY';
+    final totalCost = widget.ltp * qty;
+    final totalWithCharges = totalCost + MarginCalculator.calculateCharges(totalCost);
+    final canAfford = isBuy ? availableCash >= totalWithCharges : true; // SELL always ok
+
     final accentColor = isBuy ? AppColors.accentGreen : AppColors.accentRed;
 
     return Container(
@@ -52,9 +69,9 @@ class _OrderPlacementBottomSheetState extends ConsumerState<OrderPlacementBottom
           const SizedBox(height: 24),
           _buildQuantitySelector(),
           const SizedBox(height: 24),
-          _buildSummary(marginRequired),
+          _buildSummary(marginRequired, availableCash),
           const SizedBox(height: 24),
-          _buildConfirmButton(accentColor, qty),
+          _buildConfirmButton(accentColor, qty, canAfford),
         ],
       ),
     );
@@ -145,7 +162,11 @@ class _OrderPlacementBottomSheetState extends ConsumerState<OrderPlacementBottom
     );
   }
 
-  Widget _buildSummary(double margin) {
+  Widget _buildSummary(double margin, double availableCash) {
+    final totalCost = _lots * _lotSize * widget.ltp;
+    final charges = MarginCalculator.calculateCharges(totalCost);
+    final totalNeeded = widget.side == 'BUY' ? totalCost + charges : 0;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -160,18 +181,18 @@ class _OrderPlacementBottomSheetState extends ConsumerState<OrderPlacementBottom
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text('AVAILABLE', style: AppTextStyles.labelSmall),
-            Text(CurrencyUtils.format(1000000.0), style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
+            Text(CurrencyUtils.format(availableCash), style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildConfirmButton(Color color, int qty) {
+  Widget _buildConfirmButton(Color color, int qty, bool canAfford) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () async {
+        onPressed: canAfford ? () async {
           HapticFeedback.heavyImpact();
           final success = await ref.read(orderExecutionEngineProvider.notifier).executeMarketOrder(
             symbol: widget.symbol,
@@ -181,8 +202,12 @@ class _OrderPlacementBottomSheetState extends ConsumerState<OrderPlacementBottom
             instrumentType: 'STOCK',
           );
           if (success && mounted) Navigator.pop(context);
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: color, padding: const EdgeInsets.symmetric(vertical: 16), shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+        } : null,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: canAfford ? color : color.withOpacity(0.4),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
         child: Text('${widget.side} $qty AT MARKET', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );

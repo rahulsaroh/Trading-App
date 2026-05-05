@@ -27,7 +27,13 @@ class _StockDetailScreenState extends ConsumerState<StockDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(widget.symbol, style: AppTextStyles.headlineMedium),
+        title: Hero(
+          tag: 'symbol_${widget.symbol}',
+          child: Material(
+            color: Colors.transparent,
+            child: Text(widget.symbol, style: AppTextStyles.headlineMedium),
+          ),
+        ),
         backgroundColor: AppColors.background,
         elevation: 0,
       ),
@@ -71,7 +77,13 @@ class _StockDetailScreenState extends ConsumerState<StockDetailScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(CurrencyUtils.format(quote.ltp), style: AppTextStyles.displayLarge.copyWith(fontSize: 32)),
+            Hero(
+              tag: 'price_${widget.symbol}',
+              child: Material(
+                color: Colors.transparent,
+                child: Text(CurrencyUtils.format(quote.ltp), style: AppTextStyles.displayLarge.copyWith(fontSize: 32)),
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [

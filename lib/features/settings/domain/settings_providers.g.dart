@@ -41,7 +41,7 @@ final class TradingSettingsProvider
   }
 }
 
-String _$tradingSettingsHash() => r'b9647b18d52475e9d91902078e7807b2961be49b';
+String _$tradingSettingsHash() => r'88ff41c831719f826d9f4f0c3b2052f302509115';
 
 abstract class _$TradingSettings extends $Notifier<Map<String, dynamic>> {
   Map<String, dynamic> build();

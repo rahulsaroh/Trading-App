@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_text_styles.dart';
+import '../../../../core/utils/currency_utils.dart';
+import '../../../../data/datasources/app_database.dart';
+import '../../../../shared/widgets/bottom_nav_bar.dart';
 import '../widgets/portfolio_summary_card.dart';
 import '../providers/portfolio_providers.dart';
 
@@ -65,36 +68,47 @@ class _PositionsTab extends ConsumerWidget {
   }
 }
 
-class _PositionCard extends StatelessWidget {
-  final dynamic position;
+class _PositionCard extends ConsumerWidget {
+  final Position position;
   const _PositionCard({required this.position});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final positionsAsync = ref.watch(activePositionsProvider);
+    final ltp = position.currentPrice; // Will be updated from price stream
+    
+    // Calculate P&L using provider method
+    double pnl = 0;
+    if (positionsAsync.value != null) {
+      // Find exact position in list to use its method
+      final pos = positionsAsync.value!.firstWhere((p) => p.id == position.id, orElse: () => position);
+      pnl = ref.read(activePositionsProvider.notifier).calculatePnl(pos, ltp);
+    }
+
+    final isProfit = pnl >= 0;
+    final pnlColor = isProfit ? AppColors.accentGreen : AppColors.accentRed;
+    final formattedPnl = CurrencyUtils.format(pnl);
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: AppColors.border, width: 0.5)),
       ),
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(position.symbol, style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
-                  Text('${position.quantity} Qty • ${position.side}', style: AppTextStyles.labelSmall),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text('₹0.00', style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold, color: AppColors.accentGreen)),
-                  Text('P&L', style: AppTextStyles.labelSmall),
-                ],
-              ),
+              Text(position.symbol, style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+              Text('${position.quantity} Qty • ${position.quantity > 0 ? "LONG" : "SHORT"}', style: AppTextStyles.labelSmall),
+            ],
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(formattedPnl, style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold, color: pnlColor)),
+              Text('P&L', style: AppTextStyles.labelSmall),
             ],
           ),
         ],

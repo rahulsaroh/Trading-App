@@ -3173,12 +3173,12 @@ class $PositionsTable extends Positions
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _entryPriceMeta = const VerificationMeta(
-    'entryPrice',
+  static const VerificationMeta _averagePriceMeta = const VerificationMeta(
+    'averagePrice',
   );
   @override
-  late final GeneratedColumn<double> entryPrice = GeneratedColumn<double>(
-    'entry_price',
+  late final GeneratedColumn<double> averagePrice = GeneratedColumn<double>(
+    'average_price',
     aliasedName,
     false,
     type: DriftSqlType.double,
@@ -3306,7 +3306,7 @@ class $PositionsTable extends Positions
     symbol,
     name,
     type,
-    entryPrice,
+    averagePrice,
     currentPrice,
     quantity,
     pnl,
@@ -3355,13 +3355,16 @@ class $PositionsTable extends Positions
     } else if (isInserting) {
       context.missing(_typeMeta);
     }
-    if (data.containsKey('entry_price')) {
+    if (data.containsKey('average_price')) {
       context.handle(
-        _entryPriceMeta,
-        entryPrice.isAcceptableOrUnknown(data['entry_price']!, _entryPriceMeta),
+        _averagePriceMeta,
+        averagePrice.isAcceptableOrUnknown(
+          data['average_price']!,
+          _averagePriceMeta,
+        ),
       );
     } else if (isInserting) {
-      context.missing(_entryPriceMeta);
+      context.missing(_averagePriceMeta);
     }
     if (data.containsKey('current_price')) {
       context.handle(
@@ -3461,9 +3464,9 @@ class $PositionsTable extends Positions
         DriftSqlType.string,
         data['${effectivePrefix}type'],
       )!,
-      entryPrice: attachedDatabase.typeMapping.read(
+      averagePrice: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
-        data['${effectivePrefix}entry_price'],
+        data['${effectivePrefix}average_price'],
       )!,
       currentPrice: attachedDatabase.typeMapping.read(
         DriftSqlType.double,
@@ -3519,7 +3522,7 @@ class Position extends DataClass implements Insertable<Position> {
   final String symbol;
   final String name;
   final String type;
-  final double entryPrice;
+  final double averagePrice;
   final double currentPrice;
   final int quantity;
   final double pnl;
@@ -3535,7 +3538,7 @@ class Position extends DataClass implements Insertable<Position> {
     required this.symbol,
     required this.name,
     required this.type,
-    required this.entryPrice,
+    required this.averagePrice,
     required this.currentPrice,
     required this.quantity,
     required this.pnl,
@@ -3554,7 +3557,7 @@ class Position extends DataClass implements Insertable<Position> {
     map['symbol'] = Variable<String>(symbol);
     map['name'] = Variable<String>(name);
     map['type'] = Variable<String>(type);
-    map['entry_price'] = Variable<double>(entryPrice);
+    map['average_price'] = Variable<double>(averagePrice);
     map['current_price'] = Variable<double>(currentPrice);
     map['quantity'] = Variable<int>(quantity);
     map['pnl'] = Variable<double>(pnl);
@@ -3576,7 +3579,7 @@ class Position extends DataClass implements Insertable<Position> {
       symbol: Value(symbol),
       name: Value(name),
       type: Value(type),
-      entryPrice: Value(entryPrice),
+      averagePrice: Value(averagePrice),
       currentPrice: Value(currentPrice),
       quantity: Value(quantity),
       pnl: Value(pnl),
@@ -3602,7 +3605,7 @@ class Position extends DataClass implements Insertable<Position> {
       symbol: serializer.fromJson<String>(json['symbol']),
       name: serializer.fromJson<String>(json['name']),
       type: serializer.fromJson<String>(json['type']),
-      entryPrice: serializer.fromJson<double>(json['entryPrice']),
+      averagePrice: serializer.fromJson<double>(json['averagePrice']),
       currentPrice: serializer.fromJson<double>(json['currentPrice']),
       quantity: serializer.fromJson<int>(json['quantity']),
       pnl: serializer.fromJson<double>(json['pnl']),
@@ -3623,7 +3626,7 @@ class Position extends DataClass implements Insertable<Position> {
       'symbol': serializer.toJson<String>(symbol),
       'name': serializer.toJson<String>(name),
       'type': serializer.toJson<String>(type),
-      'entryPrice': serializer.toJson<double>(entryPrice),
+      'averagePrice': serializer.toJson<double>(averagePrice),
       'currentPrice': serializer.toJson<double>(currentPrice),
       'quantity': serializer.toJson<int>(quantity),
       'pnl': serializer.toJson<double>(pnl),
@@ -3642,7 +3645,7 @@ class Position extends DataClass implements Insertable<Position> {
     String? symbol,
     String? name,
     String? type,
-    double? entryPrice,
+    double? averagePrice,
     double? currentPrice,
     int? quantity,
     double? pnl,
@@ -3658,7 +3661,7 @@ class Position extends DataClass implements Insertable<Position> {
     symbol: symbol ?? this.symbol,
     name: name ?? this.name,
     type: type ?? this.type,
-    entryPrice: entryPrice ?? this.entryPrice,
+    averagePrice: averagePrice ?? this.averagePrice,
     currentPrice: currentPrice ?? this.currentPrice,
     quantity: quantity ?? this.quantity,
     pnl: pnl ?? this.pnl,
@@ -3676,9 +3679,9 @@ class Position extends DataClass implements Insertable<Position> {
       symbol: data.symbol.present ? data.symbol.value : this.symbol,
       name: data.name.present ? data.name.value : this.name,
       type: data.type.present ? data.type.value : this.type,
-      entryPrice: data.entryPrice.present
-          ? data.entryPrice.value
-          : this.entryPrice,
+      averagePrice: data.averagePrice.present
+          ? data.averagePrice.value
+          : this.averagePrice,
       currentPrice: data.currentPrice.present
           ? data.currentPrice.value
           : this.currentPrice,
@@ -3705,7 +3708,7 @@ class Position extends DataClass implements Insertable<Position> {
           ..write('symbol: $symbol, ')
           ..write('name: $name, ')
           ..write('type: $type, ')
-          ..write('entryPrice: $entryPrice, ')
+          ..write('averagePrice: $averagePrice, ')
           ..write('currentPrice: $currentPrice, ')
           ..write('quantity: $quantity, ')
           ..write('pnl: $pnl, ')
@@ -3726,7 +3729,7 @@ class Position extends DataClass implements Insertable<Position> {
     symbol,
     name,
     type,
-    entryPrice,
+    averagePrice,
     currentPrice,
     quantity,
     pnl,
@@ -3746,7 +3749,7 @@ class Position extends DataClass implements Insertable<Position> {
           other.symbol == this.symbol &&
           other.name == this.name &&
           other.type == this.type &&
-          other.entryPrice == this.entryPrice &&
+          other.averagePrice == this.averagePrice &&
           other.currentPrice == this.currentPrice &&
           other.quantity == this.quantity &&
           other.pnl == this.pnl &&
@@ -3764,7 +3767,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
   final Value<String> symbol;
   final Value<String> name;
   final Value<String> type;
-  final Value<double> entryPrice;
+  final Value<double> averagePrice;
   final Value<double> currentPrice;
   final Value<int> quantity;
   final Value<double> pnl;
@@ -3781,7 +3784,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     this.symbol = const Value.absent(),
     this.name = const Value.absent(),
     this.type = const Value.absent(),
-    this.entryPrice = const Value.absent(),
+    this.averagePrice = const Value.absent(),
     this.currentPrice = const Value.absent(),
     this.quantity = const Value.absent(),
     this.pnl = const Value.absent(),
@@ -3799,7 +3802,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     required String symbol,
     this.name = const Value.absent(),
     required String type,
-    required double entryPrice,
+    required double averagePrice,
     this.currentPrice = const Value.absent(),
     required int quantity,
     this.pnl = const Value.absent(),
@@ -3813,7 +3816,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     this.rowid = const Value.absent(),
   }) : symbol = Value(symbol),
        type = Value(type),
-       entryPrice = Value(entryPrice),
+       averagePrice = Value(averagePrice),
        quantity = Value(quantity),
        openedAt = Value(openedAt);
   static Insertable<Position> custom({
@@ -3821,7 +3824,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     Expression<String>? symbol,
     Expression<String>? name,
     Expression<String>? type,
-    Expression<double>? entryPrice,
+    Expression<double>? averagePrice,
     Expression<double>? currentPrice,
     Expression<int>? quantity,
     Expression<double>? pnl,
@@ -3839,7 +3842,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
       if (symbol != null) 'symbol': symbol,
       if (name != null) 'name': name,
       if (type != null) 'type': type,
-      if (entryPrice != null) 'entry_price': entryPrice,
+      if (averagePrice != null) 'average_price': averagePrice,
       if (currentPrice != null) 'current_price': currentPrice,
       if (quantity != null) 'quantity': quantity,
       if (pnl != null) 'pnl': pnl,
@@ -3859,7 +3862,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     Value<String>? symbol,
     Value<String>? name,
     Value<String>? type,
-    Value<double>? entryPrice,
+    Value<double>? averagePrice,
     Value<double>? currentPrice,
     Value<int>? quantity,
     Value<double>? pnl,
@@ -3877,7 +3880,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
       symbol: symbol ?? this.symbol,
       name: name ?? this.name,
       type: type ?? this.type,
-      entryPrice: entryPrice ?? this.entryPrice,
+      averagePrice: averagePrice ?? this.averagePrice,
       currentPrice: currentPrice ?? this.currentPrice,
       quantity: quantity ?? this.quantity,
       pnl: pnl ?? this.pnl,
@@ -3907,8 +3910,8 @@ class PositionsCompanion extends UpdateCompanion<Position> {
     if (type.present) {
       map['type'] = Variable<String>(type.value);
     }
-    if (entryPrice.present) {
-      map['entry_price'] = Variable<double>(entryPrice.value);
+    if (averagePrice.present) {
+      map['average_price'] = Variable<double>(averagePrice.value);
     }
     if (currentPrice.present) {
       map['current_price'] = Variable<double>(currentPrice.value);
@@ -3953,7 +3956,7 @@ class PositionsCompanion extends UpdateCompanion<Position> {
           ..write('symbol: $symbol, ')
           ..write('name: $name, ')
           ..write('type: $type, ')
-          ..write('entryPrice: $entryPrice, ')
+          ..write('averagePrice: $averagePrice, ')
           ..write('currentPrice: $currentPrice, ')
           ..write('quantity: $quantity, ')
           ..write('pnl: $pnl, ')
@@ -7765,7 +7768,7 @@ typedef $$PositionsTableCreateCompanionBuilder =
       required String symbol,
       Value<String> name,
       required String type,
-      required double entryPrice,
+      required double averagePrice,
       Value<double> currentPrice,
       required int quantity,
       Value<double> pnl,
@@ -7784,7 +7787,7 @@ typedef $$PositionsTableUpdateCompanionBuilder =
       Value<String> symbol,
       Value<String> name,
       Value<String> type,
-      Value<double> entryPrice,
+      Value<double> averagePrice,
       Value<double> currentPrice,
       Value<int> quantity,
       Value<double> pnl,
@@ -7827,8 +7830,8 @@ class $$PositionsTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<double> get entryPrice => $composableBuilder(
-    column: $table.entryPrice,
+  ColumnFilters<double> get averagePrice => $composableBuilder(
+    column: $table.averagePrice,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -7912,8 +7915,8 @@ class $$PositionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<double> get entryPrice => $composableBuilder(
-    column: $table.entryPrice,
+  ColumnOrderings<double> get averagePrice => $composableBuilder(
+    column: $table.averagePrice,
     builder: (column) => ColumnOrderings(column),
   );
 
@@ -7989,8 +7992,8 @@ class $$PositionsTableAnnotationComposer
   GeneratedColumn<String> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
 
-  GeneratedColumn<double> get entryPrice => $composableBuilder(
-    column: $table.entryPrice,
+  GeneratedColumn<double> get averagePrice => $composableBuilder(
+    column: $table.averagePrice,
     builder: (column) => column,
   );
 
@@ -8063,7 +8066,7 @@ class $$PositionsTableTableManager
                 Value<String> symbol = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String> type = const Value.absent(),
-                Value<double> entryPrice = const Value.absent(),
+                Value<double> averagePrice = const Value.absent(),
                 Value<double> currentPrice = const Value.absent(),
                 Value<int> quantity = const Value.absent(),
                 Value<double> pnl = const Value.absent(),
@@ -8080,7 +8083,7 @@ class $$PositionsTableTableManager
                 symbol: symbol,
                 name: name,
                 type: type,
-                entryPrice: entryPrice,
+                averagePrice: averagePrice,
                 currentPrice: currentPrice,
                 quantity: quantity,
                 pnl: pnl,
@@ -8099,7 +8102,7 @@ class $$PositionsTableTableManager
                 required String symbol,
                 Value<String> name = const Value.absent(),
                 required String type,
-                required double entryPrice,
+                required double averagePrice,
                 Value<double> currentPrice = const Value.absent(),
                 required int quantity,
                 Value<double> pnl = const Value.absent(),
@@ -8116,7 +8119,7 @@ class $$PositionsTableTableManager
                 symbol: symbol,
                 name: name,
                 type: type,
-                entryPrice: entryPrice,
+                averagePrice: averagePrice,
                 currentPrice: currentPrice,
                 quantity: quantity,
                 pnl: pnl,

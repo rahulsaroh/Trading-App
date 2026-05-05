@@ -11,7 +11,7 @@ abstract class AppPosition with _$AppPosition {
     required String symbol,
     required String name,
     required PositionType type,
-    required double entryPrice,
+    required double averagePrice,
     required double currentPrice,
     required int quantity,
     required double pnl,
@@ -29,20 +29,20 @@ abstract class AppPosition with _$AppPosition {
   const AppPosition._();
 
   /// Calculate current P&L
-  double get totalPnl => quantity * (currentPrice - entryPrice) - brokerage;
+  double get totalPnl => quantity * (currentPrice - averagePrice) - brokerage;
 
   /// Calculate current P&L percentage
-  double get totalPnlPercentage => entryPrice != 0 ? (totalPnl / (entryPrice * quantity)) * 100 : 0;
+  double get totalPnlPercentage => averagePrice != 0 ? (totalPnl / (averagePrice * quantity)) * 100 : 0;
 
   /// Calculate day P&L percentage
   @override
-  double get dayPnLPercentage => entryPrice != 0 ? (dayPnl / (entryPrice * quantity)) * 100 : 0;
+  double get dayPnLPercentage => averagePrice != 0 ? (dayPnl / (averagePrice * quantity)) * 100 : 0;
 
   /// Get the current value of the position
   double get currentValue => quantity * currentPrice;
 
   /// Get the invested value
-  double get investedValue => quantity * entryPrice;
+  double get investedValue => quantity * averagePrice;
 
   /// Check if position is profitable
   bool get isProfitable => totalPnl > 0;
@@ -55,8 +55,8 @@ abstract class AppPosition with _$AppPosition {
 
   /// Create a copy with updated price
   AppPosition updatePrice(double newPrice, {double? newDayPnl}) {
-    final pnl = quantity * (newPrice - entryPrice) - brokerage;
-    final pnlPercentage = entryPrice != 0 ? (pnl / (entryPrice * quantity)) * 100 : 0.0;
+    final pnl = quantity * (newPrice - averagePrice) - brokerage;
+    final pnlPercentage = averagePrice != 0 ? (pnl / (averagePrice * quantity)) * 100 : 0.0;
     return copyWith(
       currentPrice: newPrice,
       pnl: pnl,
@@ -71,8 +71,8 @@ abstract class AppPosition with _$AppPosition {
       currentPrice: exitPrice,
       isActive: false,
       closedAt: DateTime.now(),
-      pnl: quantity * (exitPrice - entryPrice) - brokerage,
-      pnlPercentage: entryPrice != 0 ? ((quantity * (exitPrice - entryPrice) - brokerage) / (entryPrice * quantity)) * 100 : 0,
+      pnl: quantity * (exitPrice - averagePrice) - brokerage,
+      pnlPercentage: averagePrice != 0 ? ((quantity * (exitPrice - averagePrice) - brokerage) / (averagePrice * quantity)) * 100 : 0,
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final priceSimulatorProvider = Provider((ref) => PriceTickSimulator());
 
 class TickData {
   final String symbol;

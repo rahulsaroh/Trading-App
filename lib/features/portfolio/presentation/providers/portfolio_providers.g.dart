@@ -9,6 +9,94 @@ part of 'portfolio_providers.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint, type=warning
 
+@ProviderFor(ActivePositions)
+final activePositionsProvider = ActivePositionsProvider._();
+
+final class ActivePositionsProvider
+    extends $AsyncNotifierProvider<ActivePositions, List<dynamic>> {
+  ActivePositionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'activePositionsProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$activePositionsHash();
+
+  @$internal
+  @override
+  ActivePositions create() => ActivePositions();
+}
+
+String _$activePositionsHash() => r'45d7d57061925d6af984858586026c5d3b1e639c';
+
+abstract class _$ActivePositions extends $AsyncNotifier<List<dynamic>> {
+  FutureOr<List<dynamic>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<List<dynamic>>, List<dynamic>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<dynamic>>, List<dynamic>>,
+              AsyncValue<List<dynamic>>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(PortfolioSummary)
+final portfolioSummaryProvider = PortfolioSummaryProvider._();
+
+final class PortfolioSummaryProvider
+    extends $AsyncNotifierProvider<PortfolioSummary, dynamic> {
+  PortfolioSummaryProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'portfolioSummaryProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$portfolioSummaryHash();
+
+  @$internal
+  @override
+  PortfolioSummary create() => PortfolioSummary();
+}
+
+String _$portfolioSummaryHash() => r'e89bad55ea2e23fb4283f10af9be30eada34df79';
+
+abstract class _$PortfolioSummary extends $AsyncNotifier<dynamic> {
+  FutureOr<dynamic> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref = this.ref as $Ref<AsyncValue<dynamic>, dynamic>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<dynamic>, dynamic>,
+              AsyncValue<dynamic>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(allOrders)
 final allOrdersProvider = AllOrdersProvider._();
 
@@ -46,81 +134,43 @@ final class AllOrdersProvider
   }
 }
 
-String _$allOrdersHash() => r'68e930622922b163810e363007599e62e7d8a49a';
+String _$allOrdersHash() => r'ab9a1895da74c71714c0ac77e170a22ccc118594';
 
-@ProviderFor(portfolioSummary)
-final portfolioSummaryProvider = PortfolioSummaryProvider._();
+@ProviderFor(allTrades)
+final allTradesProvider = AllTradesProvider._();
 
-final class PortfolioSummaryProvider
-    extends $FunctionalProvider<AsyncValue<dynamic>, dynamic, FutureOr<dynamic>>
-    with $FutureModifier<dynamic>, $FutureProvider<dynamic> {
-  PortfolioSummaryProvider._()
+final class AllTradesProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<dynamic>>,
+          List<dynamic>,
+          FutureOr<List<dynamic>>
+        >
+    with $FutureModifier<List<dynamic>>, $FutureProvider<List<dynamic>> {
+  AllTradesProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'portfolioSummaryProvider',
+        name: r'allTradesProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$portfolioSummaryHash();
+  String debugGetCreateSourceHash() => _$allTradesHash();
 
   @$internal
   @override
-  $FutureProviderElement<dynamic> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<List<dynamic>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<dynamic> create(Ref ref) {
-    return portfolioSummary(ref);
+  FutureOr<List<dynamic>> create(Ref ref) {
+    return allTrades(ref);
   }
 }
 
-String _$portfolioSummaryHash() => r'a6313703ed302975b0173f683dc2f23a2dbf72b4';
-
-@ProviderFor(ActivePositions)
-final activePositionsProvider = ActivePositionsProvider._();
-
-final class ActivePositionsProvider
-    extends $AsyncNotifierProvider<ActivePositions, List<dynamic>> {
-  ActivePositionsProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'activePositionsProvider',
-        isAutoDispose: true,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$activePositionsHash();
-
-  @$internal
-  @override
-  ActivePositions create() => ActivePositions();
-}
-
-String _$activePositionsHash() => r'0574bf8ad1ad84cfd9325005911949c7e5727a85';
-
-abstract class _$ActivePositions extends $AsyncNotifier<List<dynamic>> {
-  FutureOr<List<dynamic>> build();
-  @$mustCallSuper
-  @override
-  void runBuild() {
-    final ref = this.ref as $Ref<AsyncValue<List<dynamic>>, List<dynamic>>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AsyncValue<List<dynamic>>, List<dynamic>>,
-              AsyncValue<List<dynamic>>,
-              Object?,
-              Object?
-            >;
-    element.handleCreate(ref, build);
-  }
-}
+String _$allTradesHash() => r'7163c825cc5343646b7baf05c3efcb511dcc2695';

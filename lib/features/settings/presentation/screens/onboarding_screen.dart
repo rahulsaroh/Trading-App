@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_text_styles.dart';
 import '../../domain/settings_providers.dart';
@@ -15,6 +16,14 @@ class OnboardingScreen extends ConsumerStatefulWidget {
 class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _controller = PageController();
   int _currentPage = 0;
+  final TextEditingController _nameController = TextEditingController();
+  String _experience = 'Beginner';
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +72,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         children: [
           Text('Your Profile', style: AppTextStyles.displayLarge),
           const SizedBox(height: 32),
-          const TextField(
+          TextField(
+            controller: _nameController,
             decoration: InputDecoration(
               hintText: 'Enter Name',
               border: OutlineInputBorder(),
@@ -82,10 +92,10 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   Widget _buildExperienceChips() {
     return Wrap(
       spacing: 12,
-      children: ['Beginner', 'Intermediate', 'Expert'].map((e) => ActionChip(
-        label: Text(e, style: const TextStyle(fontSize: 12)),
-        onPressed: () {},
-        backgroundColor: AppColors.surface,
+      children: ['Beginner', 'Intermediate', 'Expert'].map((level) => ActionChip(
+        label: Text(level, style: const TextStyle(fontSize: 12)),
+        onPressed: () => setState(() => _experience = level),
+        backgroundColor: _experience == level ? AppColors.primaryBlue : AppColors.surface,
       )).toList(),
     );
   }
@@ -98,8 +108,11 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          TextButton(onPressed: () => _finish(), child: const Text('SKIP', style: TextStyle(color: AppColors.textSecondary))),
-          _currentPage == 4 
+          TextButton(
+            onPressed: () => _finish(),
+            child: const Text('SKIP', style: TextStyle(color: AppColors.textSecondary)),
+          ),
+          _currentPage == 4
             ? ElevatedButton(
                 onPressed: () => _finish(),
                 style: ElevatedButton.styleFrom(backgroundColor: AppColors.primaryBlue),
@@ -114,7 +127,13 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
     );
   }
 
-  void _finish() async {
+  Future<void> _finish() async {
+    final name = _nameController.text.trim().isEmpty ? 'Trader' : _nameController.text.trim();
+    // Save both name and experience, and mark onboarded
+    // For simplicity, we'll store in SharedPreferences directly or extend TradingSettings
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('trader_name', name);
+    await prefs.setString('experience_level', _experience);
     await ref.read(tradingSettingsProvider.notifier).setOnboarded();
     if (mounted) context.go('/');
   }

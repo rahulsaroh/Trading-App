@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'core/theme/app_theme.dart';
 import 'core/constants/app_colors.dart';
 import 'core/constants/app_text_styles.dart';
-import 'data/datasources/price_tick_simulator.dart';
+import 'core/services/price_tick_simulator.dart';
+import 'data/datasources/nse_api_client.dart';
+import 'features/dashboard/providers/market_providers.dart';
 import 'features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'features/market_depth/presentation/screens/stock_detail_screen.dart';
 import 'features/portfolio/presentation/screens/portfolio_screen.dart';
@@ -15,16 +17,40 @@ import 'features/alerts/presentation/screens/alerts_screen.dart';
 import 'features/scanner/presentation/screens/market_scanner_screen.dart';
 import 'features/settings/presentation/screens/onboarding_screen.dart';
 import 'features/settings/presentation/screens/settings_screen.dart';
-
-// Global Price Stream
-final priceSimulatorProvider = Provider((ref) => PriceTickSimulator());
-final priceStreamProvider = StreamProvider<TickData>((ref) {
-  final simulator = ref.watch(priceSimulatorProvider);
-  return simulator.tickStream;
-});
+import 'features/settings/domain/settings_providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize settings from SharedPreferences
+  final container = ProviderContainer();
+  await container.read(tradingSettingsProvider.notifier).init();
+
+  // Initialize Market Data
+  final nseClient = NseApiClient();
+  await nseClient.initialize();
+  
+  final marketRepo = container.read(marketDataRepositoryProvider);
+  
+  try {
+    final indexQuotes = await marketRepo.fetchIndexQuotes();
+    final seedPrices = <String, double>{};
+    for (final entry in indexQuotes.entries) {
+      seedPrices[entry.key] = entry.value.ltp;
+    }
+    
+    // Also fetch some Nifty50 stocks for simulation
+    final stocks = await marketRepo.fetchNifty50Stocks();
+    for (final stock in stocks) {
+      seedPrices[stock.symbol] = stock.ltp;
+    }
+    
+    await PriceTickSimulator().seedPrices(seedPrices);
+    PriceTickSimulator().startSimulation();
+    debugPrint('[Main] Simulator started with ${seedPrices.length} instruments');
+  } catch (e) {
+    debugPrint('[Main] Data seeding failed: $e');
+  }
 
   if (kDebugMode) {
     debugPrint('========================================');
@@ -33,12 +59,17 @@ void main() async {
     debugPrint('========================================');
   }
 
-  runApp(const ProviderScope(child: TradeDeskApp()));
+  runApp(UncontrolledProviderScope(
+    container: container,
+    child: const TradeDeskApp(),
+  ));
 }
 
 final _routerProvider = Provider<GoRouter>((ref) {
+  final onboarded = ref.watch(tradingSettingsProvider)['onboarded'] ?? false;
+
   return GoRouter(
-    initialLocation: '/splash',
+    initialLocation: onboarded ? '/' : '/splash',
     routes: [
       GoRoute(
         path: '/splash',
@@ -114,14 +145,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   Future<void> _initApp() async {
-    ref.read(priceSimulatorProvider).start({
-      'NIFTY 50': 24500.0,
-      'RELIANCE': 2950.0,
-      'HDFCBANK': 1650.0,
-    });
-    
     await Future.delayed(const Duration(seconds: 3));
-    if (mounted) context.go('/onboarding');
+    if (mounted) {
+      final onboarded = ref.read(tradingSettingsProvider)['onboarded'] ?? false;
+      context.go(onboarded ? '/' : '/onboarding');
+    }
   }
 
   @override

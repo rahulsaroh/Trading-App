@@ -34,7 +34,7 @@ final class OrderExecutionEngineProvider
 }
 
 String _$orderExecutionEngineHash() =>
-    r'7ea42242bb68ca36c31eeaa00e5d353d962a1b8e';
+    r'983f207cc338f3360f7e24d0e447d122284cf657';
 
 abstract class _$OrderExecutionEngine extends $AsyncNotifier<void> {
   FutureOr<void> build();

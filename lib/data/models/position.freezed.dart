@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$AppPosition {
 
- String get id; String get symbol; String get name; PositionType get type; double get entryPrice; double get currentPrice; int get quantity; double get pnl; double get pnlPercentage; double get dayPnl; double get dayPnLPercentage; DateTime get openedAt; DateTime? get closedAt; bool get isActive; double get brokerage;
+ String get id; String get symbol; String get name; PositionType get type; double get averagePrice; double get currentPrice; int get quantity; double get pnl; double get pnlPercentage; double get dayPnl; double get dayPnLPercentage; DateTime get openedAt; DateTime? get closedAt; bool get isActive; double get brokerage;
 /// Create a copy of AppPosition
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $AppPositionCopyWith<AppPosition> get copyWith => _$AppPositionCopyWithImpl<AppP
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppPosition&&(identical(other.id, id) || other.id == id)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.entryPrice, entryPrice) || other.entryPrice == entryPrice)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.pnl, pnl) || other.pnl == pnl)&&(identical(other.pnlPercentage, pnlPercentage) || other.pnlPercentage == pnlPercentage)&&(identical(other.dayPnl, dayPnl) || other.dayPnl == dayPnl)&&(identical(other.dayPnLPercentage, dayPnLPercentage) || other.dayPnLPercentage == dayPnLPercentage)&&(identical(other.openedAt, openedAt) || other.openedAt == openedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.brokerage, brokerage) || other.brokerage == brokerage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AppPosition&&(identical(other.id, id) || other.id == id)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.averagePrice, averagePrice) || other.averagePrice == averagePrice)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.pnl, pnl) || other.pnl == pnl)&&(identical(other.pnlPercentage, pnlPercentage) || other.pnlPercentage == pnlPercentage)&&(identical(other.dayPnl, dayPnl) || other.dayPnl == dayPnl)&&(identical(other.dayPnLPercentage, dayPnLPercentage) || other.dayPnLPercentage == dayPnLPercentage)&&(identical(other.openedAt, openedAt) || other.openedAt == openedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.brokerage, brokerage) || other.brokerage == brokerage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,symbol,name,type,entryPrice,currentPrice,quantity,pnl,pnlPercentage,dayPnl,dayPnLPercentage,openedAt,closedAt,isActive,brokerage);
+int get hashCode => Object.hash(runtimeType,id,symbol,name,type,averagePrice,currentPrice,quantity,pnl,pnlPercentage,dayPnl,dayPnLPercentage,openedAt,closedAt,isActive,brokerage);
 
 @override
 String toString() {
-  return 'AppPosition(id: $id, symbol: $symbol, name: $name, type: $type, entryPrice: $entryPrice, currentPrice: $currentPrice, quantity: $quantity, pnl: $pnl, pnlPercentage: $pnlPercentage, dayPnl: $dayPnl, dayPnLPercentage: $dayPnLPercentage, openedAt: $openedAt, closedAt: $closedAt, isActive: $isActive, brokerage: $brokerage)';
+  return 'AppPosition(id: $id, symbol: $symbol, name: $name, type: $type, averagePrice: $averagePrice, currentPrice: $currentPrice, quantity: $quantity, pnl: $pnl, pnlPercentage: $pnlPercentage, dayPnl: $dayPnl, dayPnLPercentage: $dayPnLPercentage, openedAt: $openedAt, closedAt: $closedAt, isActive: $isActive, brokerage: $brokerage)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $AppPositionCopyWith<$Res>  {
   factory $AppPositionCopyWith(AppPosition value, $Res Function(AppPosition) _then) = _$AppPositionCopyWithImpl;
 @useResult
 $Res call({
- String id, String symbol, String name, PositionType type, double entryPrice, double currentPrice, int quantity, double pnl, double pnlPercentage, double dayPnl, double dayPnLPercentage, DateTime openedAt, DateTime? closedAt, bool isActive, double brokerage
+ String id, String symbol, String name, PositionType type, double averagePrice, double currentPrice, int quantity, double pnl, double pnlPercentage, double dayPnl, double dayPnLPercentage, DateTime openedAt, DateTime? closedAt, bool isActive, double brokerage
 });
 
 
@@ -65,13 +65,13 @@ class _$AppPositionCopyWithImpl<$Res>
 
 /// Create a copy of AppPosition
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? symbol = null,Object? name = null,Object? type = null,Object? entryPrice = null,Object? currentPrice = null,Object? quantity = null,Object? pnl = null,Object? pnlPercentage = null,Object? dayPnl = null,Object? dayPnLPercentage = null,Object? openedAt = null,Object? closedAt = freezed,Object? isActive = null,Object? brokerage = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? symbol = null,Object? name = null,Object? type = null,Object? averagePrice = null,Object? currentPrice = null,Object? quantity = null,Object? pnl = null,Object? pnlPercentage = null,Object? dayPnl = null,Object? dayPnLPercentage = null,Object? openedAt = null,Object? closedAt = freezed,Object? isActive = null,Object? brokerage = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as PositionType,entryPrice: null == entryPrice ? _self.entryPrice : entryPrice // ignore: cast_nullable_to_non_nullable
+as PositionType,averagePrice: null == averagePrice ? _self.averagePrice : averagePrice // ignore: cast_nullable_to_non_nullable
 as double,currentPrice: null == currentPrice ? _self.currentPrice : currentPrice // ignore: cast_nullable_to_non_nullable
 as double,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,pnl: null == pnl ? _self.pnl : pnl // ignore: cast_nullable_to_non_nullable
@@ -167,10 +167,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String symbol,  String name,  PositionType type,  double entryPrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String symbol,  String name,  PositionType type,  double averagePrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _AppPosition() when $default != null:
-return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
+return $default(_that.id,_that.symbol,_that.name,_that.type,_that.averagePrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
   return orElse();
 
 }
@@ -188,10 +188,10 @@ return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String symbol,  String name,  PositionType type,  double entryPrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String symbol,  String name,  PositionType type,  double averagePrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)  $default,) {final _that = this;
 switch (_that) {
 case _AppPosition():
-return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
+return $default(_that.id,_that.symbol,_that.name,_that.type,_that.averagePrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -208,10 +208,10 @@ return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String symbol,  String name,  PositionType type,  double entryPrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String symbol,  String name,  PositionType type,  double averagePrice,  double currentPrice,  int quantity,  double pnl,  double pnlPercentage,  double dayPnl,  double dayPnLPercentage,  DateTime openedAt,  DateTime? closedAt,  bool isActive,  double brokerage)?  $default,) {final _that = this;
 switch (_that) {
 case _AppPosition() when $default != null:
-return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
+return $default(_that.id,_that.symbol,_that.name,_that.type,_that.averagePrice,_that.currentPrice,_that.quantity,_that.pnl,_that.pnlPercentage,_that.dayPnl,_that.dayPnLPercentage,_that.openedAt,_that.closedAt,_that.isActive,_that.brokerage);case _:
   return null;
 
 }
@@ -223,14 +223,14 @@ return $default(_that.id,_that.symbol,_that.name,_that.type,_that.entryPrice,_th
 @JsonSerializable()
 
 class _AppPosition extends AppPosition {
-  const _AppPosition({required this.id, required this.symbol, required this.name, required this.type, required this.entryPrice, required this.currentPrice, required this.quantity, required this.pnl, required this.pnlPercentage, required this.dayPnl, required this.dayPnLPercentage, required this.openedAt, required this.closedAt, required this.isActive, required this.brokerage}): super._();
+  const _AppPosition({required this.id, required this.symbol, required this.name, required this.type, required this.averagePrice, required this.currentPrice, required this.quantity, required this.pnl, required this.pnlPercentage, required this.dayPnl, required this.dayPnLPercentage, required this.openedAt, required this.closedAt, required this.isActive, required this.brokerage}): super._();
   factory _AppPosition.fromJson(Map<String, dynamic> json) => _$AppPositionFromJson(json);
 
 @override final  String id;
 @override final  String symbol;
 @override final  String name;
 @override final  PositionType type;
-@override final  double entryPrice;
+@override final  double averagePrice;
 @override final  double currentPrice;
 @override final  int quantity;
 @override final  double pnl;
@@ -255,16 +255,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppPosition&&(identical(other.id, id) || other.id == id)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.entryPrice, entryPrice) || other.entryPrice == entryPrice)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.pnl, pnl) || other.pnl == pnl)&&(identical(other.pnlPercentage, pnlPercentage) || other.pnlPercentage == pnlPercentage)&&(identical(other.dayPnl, dayPnl) || other.dayPnl == dayPnl)&&(identical(other.dayPnLPercentage, dayPnLPercentage) || other.dayPnLPercentage == dayPnLPercentage)&&(identical(other.openedAt, openedAt) || other.openedAt == openedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.brokerage, brokerage) || other.brokerage == brokerage));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AppPosition&&(identical(other.id, id) || other.id == id)&&(identical(other.symbol, symbol) || other.symbol == symbol)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&(identical(other.averagePrice, averagePrice) || other.averagePrice == averagePrice)&&(identical(other.currentPrice, currentPrice) || other.currentPrice == currentPrice)&&(identical(other.quantity, quantity) || other.quantity == quantity)&&(identical(other.pnl, pnl) || other.pnl == pnl)&&(identical(other.pnlPercentage, pnlPercentage) || other.pnlPercentage == pnlPercentage)&&(identical(other.dayPnl, dayPnl) || other.dayPnl == dayPnl)&&(identical(other.dayPnLPercentage, dayPnLPercentage) || other.dayPnLPercentage == dayPnLPercentage)&&(identical(other.openedAt, openedAt) || other.openedAt == openedAt)&&(identical(other.closedAt, closedAt) || other.closedAt == closedAt)&&(identical(other.isActive, isActive) || other.isActive == isActive)&&(identical(other.brokerage, brokerage) || other.brokerage == brokerage));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,symbol,name,type,entryPrice,currentPrice,quantity,pnl,pnlPercentage,dayPnl,dayPnLPercentage,openedAt,closedAt,isActive,brokerage);
+int get hashCode => Object.hash(runtimeType,id,symbol,name,type,averagePrice,currentPrice,quantity,pnl,pnlPercentage,dayPnl,dayPnLPercentage,openedAt,closedAt,isActive,brokerage);
 
 @override
 String toString() {
-  return 'AppPosition(id: $id, symbol: $symbol, name: $name, type: $type, entryPrice: $entryPrice, currentPrice: $currentPrice, quantity: $quantity, pnl: $pnl, pnlPercentage: $pnlPercentage, dayPnl: $dayPnl, dayPnLPercentage: $dayPnLPercentage, openedAt: $openedAt, closedAt: $closedAt, isActive: $isActive, brokerage: $brokerage)';
+  return 'AppPosition(id: $id, symbol: $symbol, name: $name, type: $type, averagePrice: $averagePrice, currentPrice: $currentPrice, quantity: $quantity, pnl: $pnl, pnlPercentage: $pnlPercentage, dayPnl: $dayPnl, dayPnLPercentage: $dayPnLPercentage, openedAt: $openedAt, closedAt: $closedAt, isActive: $isActive, brokerage: $brokerage)';
 }
 
 
@@ -275,7 +275,7 @@ abstract mixin class _$AppPositionCopyWith<$Res> implements $AppPositionCopyWith
   factory _$AppPositionCopyWith(_AppPosition value, $Res Function(_AppPosition) _then) = __$AppPositionCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String symbol, String name, PositionType type, double entryPrice, double currentPrice, int quantity, double pnl, double pnlPercentage, double dayPnl, double dayPnLPercentage, DateTime openedAt, DateTime? closedAt, bool isActive, double brokerage
+ String id, String symbol, String name, PositionType type, double averagePrice, double currentPrice, int quantity, double pnl, double pnlPercentage, double dayPnl, double dayPnLPercentage, DateTime openedAt, DateTime? closedAt, bool isActive, double brokerage
 });
 
 
@@ -292,13 +292,13 @@ class __$AppPositionCopyWithImpl<$Res>
 
 /// Create a copy of AppPosition
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? symbol = null,Object? name = null,Object? type = null,Object? entryPrice = null,Object? currentPrice = null,Object? quantity = null,Object? pnl = null,Object? pnlPercentage = null,Object? dayPnl = null,Object? dayPnLPercentage = null,Object? openedAt = null,Object? closedAt = freezed,Object? isActive = null,Object? brokerage = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? symbol = null,Object? name = null,Object? type = null,Object? averagePrice = null,Object? currentPrice = null,Object? quantity = null,Object? pnl = null,Object? pnlPercentage = null,Object? dayPnl = null,Object? dayPnLPercentage = null,Object? openedAt = null,Object? closedAt = freezed,Object? isActive = null,Object? brokerage = null,}) {
   return _then(_AppPosition(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,symbol: null == symbol ? _self.symbol : symbol // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
-as PositionType,entryPrice: null == entryPrice ? _self.entryPrice : entryPrice // ignore: cast_nullable_to_non_nullable
+as PositionType,averagePrice: null == averagePrice ? _self.averagePrice : averagePrice // ignore: cast_nullable_to_non_nullable
 as double,currentPrice: null == currentPrice ? _self.currentPrice : currentPrice // ignore: cast_nullable_to_non_nullable
 as double,quantity: null == quantity ? _self.quantity : quantity // ignore: cast_nullable_to_non_nullable
 as int,pnl: null == pnl ? _self.pnl : pnl // ignore: cast_nullable_to_non_nullable
