@@ -8,7 +8,7 @@ import 'core/constants/app_colors.dart';
 import 'core/constants/app_text_styles.dart';
 import 'core/services/price_tick_simulator.dart';
 import 'data/datasources/nse_api_client.dart';
-import 'features/dashboard/providers/market_providers.dart';
+import 'features/market_depth/market_data_providers.dart';
 import 'features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'features/market_depth/presentation/screens/stock_detail_screen.dart';
 import 'features/portfolio/presentation/screens/portfolio_screen.dart';
@@ -30,7 +30,7 @@ void main() async {
   final nseClient = NseApiClient();
   await nseClient.initialize();
   
-  final marketRepo = container.read(marketDataRepositoryProvider);
+  final marketRepo = container.read(marketRepositoryProvider);
   
   try {
     final indexQuotes = await marketRepo.fetchIndexQuotes();

@@ -35,6 +35,7 @@ class WatchlistItemRow extends ConsumerWidget {
         // In this case, we'll keep the UI simple.
         
         quoteAsync.whenData((quote) {
+          if (quote == null) return;
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
@@ -74,13 +75,15 @@ class WatchlistItemRow extends ConsumerWidget {
                 ),
               ),
               quoteAsync.when(
-                data: (quote) => Hero(
-                  tag: 'price_${item.symbol}',
-                  child: Material(
-                    color: Colors.transparent,
-                    child: _buildPriceInfo(quote.ltp, quote.change, quote.changePct),
+                data: (quote) => quote == null 
+                  ? const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16)
+                  : Hero(
+                    tag: 'price_${item.symbol}',
+                    child: Material(
+                      color: Colors.transparent,
+                      child: _buildPriceInfo(quote.ltp, quote.change, quote.changePct),
+                    ),
                   ),
-                ),
                 loading: () => const SizedBox(width: 80, height: 20, child: LinearProgressIndicator(color: AppColors.border)),
                 error: (_, _) => const Icon(Icons.error_outline, color: AppColors.accentRed, size: 16),
               ),

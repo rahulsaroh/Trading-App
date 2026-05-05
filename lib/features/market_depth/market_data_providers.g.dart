@@ -95,7 +95,7 @@ final class MarketRepositoryProvider
   }
 }
 
-String _$marketRepositoryHash() => r'774677073be9003906bff85004f94e69825a9626';
+String _$marketRepositoryHash() => r'c6769e4d18f94357f858f6e94396df7db33942b6';
 
 @ProviderFor(Nifty50Stocks)
 final nifty50StocksProvider = Nifty50StocksProvider._();
@@ -148,11 +148,11 @@ final stockQuoteProvider = StockQuoteFamily._();
 final class StockQuoteProvider
     extends
         $FunctionalProvider<
-          AsyncValue<StockQuote>,
-          StockQuote,
-          FutureOr<StockQuote>
+          AsyncValue<StockQuote?>,
+          StockQuote?,
+          FutureOr<StockQuote?>
         >
-    with $FutureModifier<StockQuote>, $FutureProvider<StockQuote> {
+    with $FutureModifier<StockQuote?>, $FutureProvider<StockQuote?> {
   StockQuoteProvider._({
     required StockQuoteFamily super.from,
     required String super.argument,
@@ -176,11 +176,12 @@ final class StockQuoteProvider
 
   @$internal
   @override
-  $FutureProviderElement<StockQuote> $createElement($ProviderPointer pointer) =>
-      $FutureProviderElement(pointer);
+  $FutureProviderElement<StockQuote?> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
 
   @override
-  FutureOr<StockQuote> create(Ref ref) {
+  FutureOr<StockQuote?> create(Ref ref) {
     final argument = this.argument as String;
     return stockQuote(ref, argument);
   }
@@ -196,10 +197,10 @@ final class StockQuoteProvider
   }
 }
 
-String _$stockQuoteHash() => r'107bdd9533ed34a3f7e0ac2a370e55720e295dfa';
+String _$stockQuoteHash() => r'dd0a3782345516d2c1cf40c1cae7ea4ab60b811a';
 
 final class StockQuoteFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<StockQuote>, String> {
+    with $FunctionalFamilyOverride<FutureOr<StockQuote?>, String> {
   StockQuoteFamily._()
     : super(
         retry: null,
@@ -346,3 +347,98 @@ final class MarketStatusProvider
 }
 
 String _$marketStatusHash() => r'103d5cba3d93a0b1704af7596a0dffa1089009ba';
+
+@ProviderFor(IndexQuotesNotifier)
+final indexQuotesProvider = IndexQuotesNotifierProvider._();
+
+final class IndexQuotesNotifierProvider
+    extends
+        $AsyncNotifierProvider<IndexQuotesNotifier, Map<String, StockQuote>> {
+  IndexQuotesNotifierProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'indexQuotesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$indexQuotesNotifierHash();
+
+  @$internal
+  @override
+  IndexQuotesNotifier create() => IndexQuotesNotifier();
+}
+
+String _$indexQuotesNotifierHash() =>
+    r'86981e411ff2e487b6a95c2d996ec822c9ace7ca';
+
+abstract class _$IndexQuotesNotifier
+    extends $AsyncNotifier<Map<String, StockQuote>> {
+  FutureOr<Map<String, StockQuote>> build();
+  @$mustCallSuper
+  @override
+  void runBuild() {
+    final ref =
+        this.ref
+            as $Ref<
+              AsyncValue<Map<String, StockQuote>>,
+              Map<String, StockQuote>
+            >;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<
+                AsyncValue<Map<String, StockQuote>>,
+                Map<String, StockQuote>
+              >,
+              AsyncValue<Map<String, StockQuote>>,
+              Object?,
+              Object?
+            >;
+    element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(niftyIntradayChart)
+final niftyIntradayChartProvider = NiftyIntradayChartProvider._();
+
+final class NiftyIntradayChartProvider
+    extends
+        $FunctionalProvider<
+          AsyncValue<List<Candle>>,
+          List<Candle>,
+          FutureOr<List<Candle>>
+        >
+    with $FutureModifier<List<Candle>>, $FutureProvider<List<Candle>> {
+  NiftyIntradayChartProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'niftyIntradayChartProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$niftyIntradayChartHash();
+
+  @$internal
+  @override
+  $FutureProviderElement<List<Candle>> $createElement(
+    $ProviderPointer pointer,
+  ) => $FutureProviderElement(pointer);
+
+  @override
+  FutureOr<List<Candle>> create(Ref ref) {
+    return niftyIntradayChart(ref);
+  }
+}
+
+String _$niftyIntradayChartHash() =>
+    r'49bfc70585362810b1a1be2ab2286b9d63acf707';

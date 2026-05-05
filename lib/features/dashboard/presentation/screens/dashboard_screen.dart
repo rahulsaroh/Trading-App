@@ -9,8 +9,7 @@ import '../widgets/portfolio_summary_card.dart';
 import '../widgets/index_pulse_card.dart';
 import '../widgets/nifty_intraday_chart.dart';
 import '../widgets/data_freshness_indicator.dart';
-import '../providers/market_providers.dart';
-import '../../../market_depth/market_data_providers.dart' as old_market;
+import '../../../market_depth/market_data_providers.dart';
 import '../../../portfolio/presentation/providers/portfolio_providers.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
@@ -33,14 +32,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            ref.invalidate(indexQuotesNotifierProvider);
+            ref.invalidate(indexQuotesProvider);
             ref.invalidate(niftyIntradayChartProvider);
           },
           color: AppColors.primaryBlue,
           child: CustomScrollView(
             slivers: [
               _buildAppBar(),
-              if (status == MarketStatus.closed) _buildClosedBanner(),
+              if (status == MarketStatus.CLOSED) _buildClosedBanner(),
               SliverPadding(
                 padding: const EdgeInsets.all(16),
                 sliver: SliverList(
@@ -153,7 +152,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
 
   Widget _buildMarketPulseRow() {
     return Consumer(builder: (context, ref, _) {
-      final indexAsync = ref.watch(indexQuotesNotifierProvider);
+      final indexAsync = ref.watch(indexQuotesProvider);
       return indexAsync.when(
         loading: () => _buildIndexShimmerRow(),
         error: (e, _) => _buildIndexErrorCard(e.toString()),

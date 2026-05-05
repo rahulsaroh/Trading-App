@@ -353,7 +353,7 @@ class MarketDataRepository {
           final lines = (res.data as String).split('\n');
           if (lines.length > 1) {
             final cols = lines[1].split(',');
-            final close = double.tryParse(cols[5]) ?? 0;
+            final close = double.tryParse(cols[5]) ?? 0.0;
             final open = double.tryParse(cols[3]) ?? close;
             result.add(StockQuote(
               symbol: entry.value,
@@ -364,8 +364,8 @@ class MarketDataRepository {
               low: double.tryParse(cols[5]) ?? close,
               previousClose: open,
               change: close - open,
-              changePct: open > 0 ? ((close - open) / open) * 100 : 0,
-              volume: int.tryParse(cols[6].trim()) ?? 0,
+              changePct: open > 0 ? ((close - open) / open) * 100 : 0.0,
+              volume: double.tryParse(cols[6].trim()) ?? 0.0,
               isIndex: true,
             ));
           }
